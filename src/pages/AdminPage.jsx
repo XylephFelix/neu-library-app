@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { auth, db } from "../firebase";
 import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/logo.jpg"; // Siguraduhin na tama ang path na ito
 
 export default function AdminPage() {
   const [visits, setVisits] = useState([]);
@@ -31,7 +31,7 @@ export default function AdminPage() {
           <img src={logo} alt="NEU Logo" className="w-16 h-16 object-contain" />
           <h1 className="text-2xl font-black text-[#002B5B]">ADMIN PANEL</h1>
         </div>
-        <button onClick={() => { auth.signOut(); navigate("/"); }} className="bg-red-500 text-white px-6 py-2 rounded-xl font-bold">LOGOUT</button>
+        <button onClick={() => { auth.signOut(); navigate("/"); }} className="bg-red-500 text-white px-6 py-2 rounded-xl font-bold transition-all shadow-md active:scale-95">LOGOUT</button>
       </div>
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -54,7 +54,12 @@ export default function AdminPage() {
             </thead>
             <tbody className="divide-y">
               {filteredVisits.map((v) => (
-                <tr key={v.id} className="hover:bg-gray-50 text-center"><td className="p-4 font-bold text-[#002B5B] text-left">{v.name}</td><td className="p-4 text-left">{v.college}</td><td className="p-4 text-left">{v.purpose}</td><td className="p-4 text-gray-400 italic text-left">{v.timestamp?.toDate().toLocaleTimeString()}</td></tr>
+                <tr key={v.id} className="hover:bg-gray-50">
+                  <td className="p-4 font-bold text-[#002B5B] text-left">{v.name}</td>
+                  <td className="p-4 text-left">{v.college}</td>
+                  <td className="p-4 text-left">{v.purpose}</td>
+                  <td className="p-4 text-gray-400 italic text-left">{v.timestamp?.toDate().toLocaleTimeString()}</td>
+                </tr>
               ))}
             </tbody>
           </table>

@@ -2,7 +2,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import logo from "../assets/logo.jpg";
+import logo from "../assets/logo.jpg"; // Siguraduhin na tama ang path na ito
 
 export default function LoginPage() {
   const navigate = useNavigate();
