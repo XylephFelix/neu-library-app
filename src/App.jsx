@@ -43,7 +43,7 @@ export default function App() {
   const [filterPurpose, setFilterPurpose] = useState('');
   const [visitDetails, setVisitDetails] = useState(null);
 
-  // ── REAL-TIME LISTENER (admin) ─────────────────────────
+  
   useEffect(() => {
     if (role === 'admin') {
       const unsub = onSnapshot(collection(db, 'visits'), (snap) => {
@@ -57,7 +57,7 @@ export default function App() {
     }
   }, [role]);
 
-  // ── LOGIN ──────────────────────────────────────────────
+
   const handleLogin = async () => {
     setError('');
     const provider = new GoogleAuthProvider();
@@ -93,13 +93,13 @@ export default function App() {
     }
   };
 
-  // ── LOGOUT ─────────────────────────────────────────────
+
   const handleLogout = async () => {
     await signOut(auth);
     setUser(null); setRole(null); setScreen('login'); setError('');
   };
 
-  // ── CHECK-IN ───────────────────────────────────────────
+  
   const handleCheckin = async () => {
     if (!purpose) { setError('Pumili ng layunin ng pagbisita.'); return; }
     if (!college) { setError('Pumili ng iyong kolehiyo.'); return; }
@@ -118,7 +118,7 @@ export default function App() {
     } catch (err) { setError('Hindi ma-save ang check-in.'); }
   };
 
-  // ── BLOCK/UNBLOCK ──────────────────────────────────────
+
   const toggleBlock = async (email) => {
     const q = query(collection(db, 'users'), where('email', '==', email));
     const snap = await getDocs(q);
@@ -130,7 +130,7 @@ export default function App() {
     }
   };
 
-  // ── FILTER ─────────────────────────────────────────────
+  
   const filtered = visits.filter(v => {
     if (filterPurpose && v.purpose !== filterPurpose) return false;
     if (filterCollege && v.college !== filterCollege) return false;
@@ -187,7 +187,9 @@ export default function App() {
   return (
     <div className="app-container">
 
-      {/* ── LOGIN ───────────────────────────────────────── */}
+      {
+
+      }
       {screen === 'login' && (
         <div className="login-container">
           <div className="login-card">
@@ -198,7 +200,9 @@ export default function App() {
 
             <div className={`error-msg ${error ? 'visible' : ''}`}>{error}</div>
 
-            {/* Email field (decorative) */}
+            {
+
+            }
             <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
               <label style={labelStyle}>Institutional Email</label>
               <input
@@ -209,7 +213,9 @@ export default function App() {
               />
             </div>
 
-            {/* Password field (decorative) */}
+            {
+
+            }
             <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
               <label style={labelStyle}>Password</label>
               <input
@@ -220,7 +226,9 @@ export default function App() {
               />
             </div>
 
-            {/* Google Sign-in button */}
+            {
+
+            }
             <button className="btn-google" onClick={handleLogin}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
@@ -231,7 +239,9 @@ export default function App() {
               Sign in with Institutional ID
             </button>
 
-            {/* Info footer */}
+            {
+
+            }
             <div style={{
               marginTop: '1.5rem',
               padding: '0.85rem 1rem',
@@ -258,7 +268,9 @@ export default function App() {
         </div>
       )}
 
-      {/* ── CHECK-IN ─────────────────────────────────────── */}
+      {
+
+      }
       {screen === 'checkin' && (
         <div>
           <div className="top-bar">
@@ -305,7 +317,9 @@ export default function App() {
         </div>
       )}
 
-      {/* ── WELCOME ──────────────────────────────────────── */}
+      {
+
+      }
       {screen === 'welcome' && visitDetails && (
         <div>
           <div className="top-bar">
@@ -334,7 +348,9 @@ export default function App() {
         </div>
       )}
 
-      {/* ── ADMIN ────────────────────────────────────────── */}
+      {
+
+      }
       {screen === 'admin' && (
         <div>
           <div className="top-bar">
