@@ -47,7 +47,7 @@ export default function LoginPage() {
         });
       }
 
-      
+      // If admin email — show role selector
       if (ADMIN_EMAILS.includes(user.email)) {
         setPendingUser(user);
         setShowRoleSelect(true);
