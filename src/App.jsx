@@ -65,7 +65,6 @@ export default function App() {
     try {
       const result = await signInWithPopup(auth, provider);
       const email = result.user.email;
-
       if (!email.endsWith(ALLOWED_DOMAIN)) {
         await signOut(auth);
         setError('Tanggap lang ang @neu.edu.ph na email. Subukan ulit.');
@@ -84,7 +83,6 @@ export default function App() {
         role: ADMIN_EMAILS.includes(email) ? 'admin' : 'user',
         isBlocked: false,
       }, { merge: true });
-
       const isAdmin = ADMIN_EMAILS.includes(email);
       setUser(result.user);
       setRole(isAdmin ? 'admin' : 'user');
@@ -164,6 +162,28 @@ export default function App() {
     </div>
   );
 
+  const inputStyle = {
+    width: '100%',
+    padding: '0.75rem 1rem',
+    borderRadius: '10px',
+    border: '1.5px solid rgba(201,162,39,0.3)',
+    background: 'rgba(255,255,255,0.06)',
+    color: 'rgba(255,255,255,0.35)',
+    fontFamily: 'DM Sans, sans-serif',
+    fontSize: '0.9rem',
+    boxSizing: 'border-box',
+    cursor: 'not-allowed',
+  };
+
+  const labelStyle = {
+    color: 'rgba(255,255,255,0.55)',
+    fontSize: '0.78rem',
+    fontWeight: '600',
+    letterSpacing: '0.5px',
+    display: 'block',
+    marginBottom: '0.4rem',
+  };
+
   return (
     <div className="app-container">
 
@@ -175,7 +195,32 @@ export default function App() {
             <h1>New Era University Library</h1>
             <p>Visitor Management System</p>
             <div className="gold-divider" />
+
             <div className={`error-msg ${error ? 'visible' : ''}`}>{error}</div>
+
+            {/* Email field (decorative) */}
+            <div style={{ marginBottom: '1rem', textAlign: 'left' }}>
+              <label style={labelStyle}>Institutional Email</label>
+              <input
+                type="email"
+                placeholder="yourname@neu.edu.ph"
+                disabled
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Password field (decorative) */}
+            <div style={{ marginBottom: '1.5rem', textAlign: 'left' }}>
+              <label style={labelStyle}>Password</label>
+              <input
+                type="password"
+                placeholder="••••••••"
+                disabled
+                style={inputStyle}
+              />
+            </div>
+
+            {/* Google Sign-in button */}
             <button className="btn-google" onClick={handleLogin}>
               <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
                 <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z" fill="#4285F4"/>
@@ -183,8 +228,32 @@ export default function App() {
                 <path d="M3.964 10.71A5.41 5.41 0 013.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 000 9c0 1.452.348 2.827.957 4.042l3.007-2.332z" fill="#FBBC05"/>
                 <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 00.957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z" fill="#EA4335"/>
               </svg>
-              Sign in with Google
+              Sign in with Institutional ID
             </button>
+
+            {/* Info footer */}
+            <div style={{
+              marginTop: '1.5rem',
+              padding: '0.85rem 1rem',
+              background: 'rgba(255,255,255,0.04)',
+              borderRadius: '8px',
+              border: '1px solid rgba(255,255,255,0.07)',
+              textAlign: 'center',
+            }}>
+              <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.72rem', marginBottom: '0.2rem' }}>
+                Only <span style={{ color: 'var(--neu-gold)' }}>@neu.edu.ph</span> accounts are accepted.
+              </p>
+              <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.68rem', marginBottom: '0.5rem' }}>
+                No. 9 Central Avenue, New Era, Quezon City · (02) 7273-6345
+              </p>
+              <div style={{ borderTop: '1px solid rgba(255,255,255,0.07)', paddingTop: '0.5rem' }}>
+                <p style={{ color: 'rgba(255,255,255,0.25)', fontSize: '0.68rem' }}>
+                  Demo: <span style={{ color: 'rgba(201,162,39,0.7)' }}>user@neu.edu.ph</span> or{' '}
+                  <span style={{ color: 'rgba(201,162,39,0.7)' }}>admin@neu.edu.ph</span> — any password
+                </p>
+              </div>
+            </div>
+
           </div>
         </div>
       )}

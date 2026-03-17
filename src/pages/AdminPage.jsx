@@ -3,6 +3,7 @@ import { db, auth } from '../firebase';
 import { collection, onSnapshot, query, doc, updateDoc, getDocs, where } from 'firebase/firestore';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+import '../App.css';
 
 const COLLEGES = [
   'College of Computer Studies','College of Engineering','College of Nursing',
