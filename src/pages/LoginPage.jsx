@@ -3,12 +3,12 @@ import { auth, provider, db } from "../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
-// Safe import para sa logo
+
 let logo;
 try {
   logo = require("../assets/logo.jpg");
 } catch (e) {
-  logo = ""; // Blanko muna kung sakaling ayaw talaga basahin ng Vercel
+  logo = ""; 
 }
 
 export default function LoginPage() {

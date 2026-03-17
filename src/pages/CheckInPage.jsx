@@ -1,60 +1,76 @@
-import { useState } from "react";
-import { auth, db } from "../firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react';
+import { auth, db } from '../firebase';
+import { collection, addDoc, Timestamp } from 'firebase/firestore';
+import { useNavigate } from 'react-router-dom';
+import { signOut } from 'firebase/auth';
+
+const COLLEGES = [
+  'College of Computer Studies','College of Engineering','College of Nursing',
+  'College of Business Administration','College of Education',
+  'College of Arts and Sciences','College of Architecture','College of Criminology',
+];
+const PURPOSES = ['Study','Research','Borrowing','Printing','Group Work','Other'];
 
 export default function CheckInPage() {
-  const [college, setCollege] = useState("");
-  const [purpose, setPurpose] = useState("");
-  const [done, setDone] = useState(false);
   const navigate = useNavigate();
+  const user = auth.currentUser;
+  const [college, setCollege] = useState('');
+  const [purpose, setPurpose] = useState('');
+  const [isEmployee, setIsEmployee] = useState(false);
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async () => {
-    if (!college || !purpose) return alert("Punan lahat ng fields!");
+  const handleCheckin = async () => {
+    if (!college || !purpose) { setError('Piliin ang iyong Kolehiyo at Layunin.'); return; }
+    setError(''); setLoading(true);
     try {
-      await addDoc(collection(db, "visits"), {
-        name: auth.currentUser.displayName,
-        email: auth.currentUser.email,
-        college,
-        purpose,
-        timestamp: serverTimestamp()
+      await addDoc(collection(db, 'visits'), {
+        userId: user.uid, name: user.displayName, email: user.email,
+        college, purpose, isEmployee, timestamp: Timestamp.now(),
       });
-      setDone(true);
-    } catch (err) {
-      alert("Error saving visit.");
-    }
+      handleLogout();
+    } catch (err) { setError('Error sa pag-save. Subukan muli.'); setLoading(false); }
   };
 
-  if (done) return (
-    <div className="min-h-screen flex items-center justify-center bg-[#002B5B] p-5">
-      <div className="bg-white p-10 rounded-[2.5rem] shadow-2xl text-center border-t-8 border-[#FFD700] max-w-md w-full">
-        <div className="text-6xl mb-4">✅</div>
-        <h2 className="text-3xl font-black text-[#002B5B] mb-2 text-center">Check-in Success!</h2>
-        <p className="text-gray-600 font-medium text-center">Welcome to NEU Library, <br/><span className="text-[#002B5B] font-bold">{auth.currentUser.displayName}</span>!</p>
-        <button onClick={() => { auth.signOut(); navigate("/"); }} className="mt-8 w-full py-3 bg-[#FFD700] text-[#002B5B] font-bold rounded-xl hover:bg-[#e6c200]">LOGOUT</button>
-      </div>
-    </div>
-  );
+  const handleLogout = async () => { await signOut(auth); navigate('/'); };
 
   return (
-    <div className="min-h-screen bg-[#F5F7FA] flex items-center justify-center p-4">
-      <div className="bg-white p-8 rounded-[2rem] shadow-2xl w-full max-w-md border-t-8 border-[#002B5B]">
-        <h2 className="text-2xl font-black text-[#002B5B] mb-6 text-center uppercase">Library Check-in</h2>
-        <div className="space-y-4">
-          <select value={college} onChange={(e)=>setCollege(e.target.value)} className="w-full p-4 border-2 border-gray-100 rounded-2xl outline-none focus:border-[#FFD700] bg-gray-50 font-semibold">
-            <option value="">-- Select College --</option>
-            <option value="CICS">College of Information and Computing Sciences</option>
-            <option value="CBA">College of Business Administration</option>
-            <option value="CON">College of Nursing</option>
-            <option value="COE">College of Engineering</option>
-          </select>
-          <select value={purpose} onChange={(e)=>setPurpose(e.target.value)} className="w-full p-4 border-2 border-gray-100 rounded-2xl outline-none focus:border-[#FFD700] bg-gray-50 font-semibold">
-            <option value="">-- Purpose of Visit --</option>
-            <option value="Study">Study / Review</option>
-            <option value="Research">Research</option>
-            <option value="Books">Borrow / Return Books</option>
-          </select>
-          <button onClick={handleSubmit} className="w-full bg-[#002B5B] text-[#FFD700] py-4 rounded-2xl font-black text-lg shadow-lg hover:scale-105 transition-transform">SUBMIT</button>
+    <div>
+      <div className="top-bar">
+        <div className="neu-logo">NEU</div>
+        <div className="bar-title">Library Check-in</div>
+        <button className="btn-nav-out" onClick={handleLogout}>Sign Out</button>
+      </div>
+      <div className="checkin-body">
+        <div className="checkin-card">
+          <div className="checkin-card-header">
+            <h2>Welcome, {user?.displayName?.split(' ')[0]}!</h2>
+            <p>Please fill in your visit details</p>
+          </div>
+          <div className="checkin-card-body">
+            {error && <div className="error-msg visible">{error}</div>}
+            <div className="field-group">
+              <label className="field-label">Purpose of Visit</label>
+              <select className="neu-select" value={purpose} onChange={e => setPurpose(e.target.value)}>
+                <option value="">Select purpose...</option>
+                {PURPOSES.map(p => <option key={p} value={p}>{p}</option>)}
+              </select>
+            </div>
+            <div className="field-group">
+              <label className="field-label">College</label>
+              <select className="neu-select" value={college} onChange={e => setCollege(e.target.value)}>
+                <option value="">Select college...</option>
+                {COLLEGES.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="checkbox-group" onClick={() => setIsEmployee(!isEmployee)}>
+              <input type="checkbox" checked={isEmployee} onChange={e => setIsEmployee(e.target.checked)} onClick={e => e.stopPropagation()} />
+              <label>I am a Faculty / Employee</label>
+            </div>
+            <button className="btn-submit" onClick={handleCheckin} disabled={loading}>
+              {loading ? 'Saving...' : 'Submit Check-in'}
+            </button>
+          </div>
         </div>
       </div>
     </div>

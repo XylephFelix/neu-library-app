@@ -2,7 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
 
-// Palitan ito ng SARILI MONG config mula sa Firebase Console
+
 const firebaseConfig = {
    apiKey: "AIzaSyBKXw4QcycQQD60czhWTlkGfif9nFi6YAo",
   authDomain: "neu-library-app-d3684.firebaseapp.com",
