@@ -55,7 +55,7 @@ export default function CheckInPage() {
 
   const handleLogout = async () => { await signOut(auth); navigate('/'); };
 
-  // ── WELCOME SCREEN ──────────────────────────────────────
+ 
   if (done && visitDetails) {
     return (
       <div style={{
@@ -66,17 +66,23 @@ export default function CheckInPage() {
         <div style={{ background: 'white', borderRadius: '16px', overflow: 'hidden',
           width: '100%', maxWidth: '480px', boxShadow: '0 8px 40px rgba(26,46,110,0.15)' }}>
 
-          {/* Navy header */}
+          {
+
+          }
           <div style={{
             background: '#1a2e6e', padding: '2.5rem 2rem', textAlign: 'center',
             borderBottom: '3px solid #c9a227', position: 'relative', overflow: 'hidden',
           }}>
-            {/* Decorative circle */}
+            {
+
+            }
             <div style={{
               position: 'absolute', width: '120px', height: '120px', borderRadius: '50%',
               background: 'rgba(255,255,255,0.05)', top: '-20px', right: '-20px',
             }} />
-            {/* Checkmark circle */}
+            {
+
+            }
             <div style={{
               width: '64px', height: '64px', borderRadius: '50%',
               border: '2px solid rgba(201,162,39,0.5)',
@@ -96,7 +102,9 @@ export default function CheckInPage() {
             </p>
           </div>
 
-          {/* Details */}
+          {
+
+          }
           <div style={{ padding: '1.5rem 2rem' }}>
             <div style={{
               fontSize: '0.68rem', fontWeight: 700, letterSpacing: '1.5px',
@@ -146,7 +154,7 @@ export default function CheckInPage() {
     );
   }
 
-  // ── CHECK-IN FORM ───────────────────────────────────────
+
   return (
     <div>
       <div className="top-bar">
