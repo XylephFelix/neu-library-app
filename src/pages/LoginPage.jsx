@@ -23,7 +23,7 @@ export default function LoginPage() {
   const [success, setSuccess] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Show role selector only if email is an admin email
+ 
   const isAdminEmail = ADMIN_EMAILS.includes(email.trim().toLowerCase());
 
   const processLogin = async (user) => {
@@ -57,8 +57,7 @@ export default function LoginPage() {
       ? userSnap.data().role
       : ADMIN_EMAILS.includes(user.email) ? "admin" : "user";
 
-    // If admin email, respect the chosen role
-    // If regular user, always go to /checkin
+    
     const finalRole = isAdminEmail ? selectedRole : "user";
 
     if (finalRole === "admin" && firestoreRole !== "admin") {
@@ -172,7 +171,7 @@ export default function LoginPage() {
         width: "100%", maxWidth: "400px", backdropFilter: "blur(10px)",
         boxShadow: "0 40px 80px rgba(0,0,0,0.4)",
       }}>
-        {/* Logo */}
+        {}
         <div style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900,
           fontSize: "3.5rem", color: "#c9a227", letterSpacing: "6px", lineHeight: 1,
           marginBottom: "0.5rem" }}>NEU</div>
@@ -187,7 +186,7 @@ export default function LoginPage() {
         <div style={{ width: "48px", height: "2px", background: "#c9a227",
           margin: "1.5rem auto", borderRadius: "2px" }} />
 
-        {/* Sign In / Register Tabs */}
+        {}
         <div style={{ display: "flex", background: "rgba(255,255,255,0.06)",
           borderRadius: "10px", padding: "4px", marginBottom: "1.25rem" }}>
           {["login", "register"].map((m) => (
@@ -203,7 +202,7 @@ export default function LoginPage() {
           ))}
         </div>
 
-        {/* Error / Success */}
+        {}
         {error && (
           <div style={{ background: "rgba(220,38,38,0.15)", border: "1px solid rgba(220,38,38,0.3)",
             color: "#fca5a5", padding: "0.75rem 1rem", borderRadius: "8px",
@@ -219,7 +218,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* Full Name (register only) */}
+        {}
         {!isLogin && (
           <div style={{ marginBottom: "1rem", textAlign: "left" }}>
             <label style={labelStyle}>Full Name</label>
@@ -229,19 +228,19 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* Email */}
+        {}
         <div style={{ marginBottom: "1rem", textAlign: "left" }}>
           <label style={labelStyle}>Institutional Email</label>
           <input type="email" placeholder="yourname@neu.edu.ph"
             value={email} onChange={(e) => {
               setEmail(e.target.value);
-              setSelectedRole("user"); // reset role when email changes
+              setSelectedRole("user"); 
             }}
             onKeyDown={(e) => e.key === "Enter" && isLogin && handleEmailLogin()}
             style={inputStyle} />
         </div>
 
-        {/* ── ROLE SELECTOR — only shows if admin email is typed ── */}
+        {}
         {isLogin && isAdminEmail && (
           <div style={{ marginBottom: "1rem" }}>
             <label style={{ ...labelStyle, textAlign: "left", display: "block", marginBottom: "0.6rem" }}>
@@ -278,7 +277,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* Password */}
+        {}
         <div style={{ marginBottom: isLogin ? "1.5rem" : "1rem", textAlign: "left" }}>
           <label style={labelStyle}>Password</label>
           <input type="password" placeholder="••••••••"
@@ -287,7 +286,7 @@ export default function LoginPage() {
             style={inputStyle} />
         </div>
 
-        {/* Confirm Password (register only) */}
+        {}
         {!isLogin && (
           <div style={{ marginBottom: "1.5rem", textAlign: "left" }}>
             <label style={labelStyle}>Confirm Password</label>
@@ -298,7 +297,7 @@ export default function LoginPage() {
           </div>
         )}
 
-        {/* Primary Button */}
+        {}
         <button onClick={isLogin ? handleEmailLogin : handleRegister} disabled={loading}
           style={{
             width: "100%", background: "#c9a227", color: "#0d1a42",
@@ -317,14 +316,14 @@ export default function LoginPage() {
                 : "Create Account")}
         </button>
 
-        {/* Divider */}
+        {}
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", margin: "0.75rem 0" }}>
           <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.1)" }} />
           <span style={{ color: "rgba(255,255,255,0.3)", fontSize: "0.72rem" }}>or</span>
           <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.1)" }} />
         </div>
 
-        {/* Google Button */}
+        {}
         <button onClick={handleGoogleLogin} disabled={loading}
           style={{
             width: "100%", background: "rgba(255,255,255,0.06)",
@@ -347,7 +346,7 @@ export default function LoginPage() {
           Continue with Google
         </button>
 
-        {/* Footer */}
+        {}
         <div style={{ marginTop: "1.5rem", padding: "0.85rem 1rem",
           background: "rgba(255,255,255,0.04)", borderRadius: "8px",
           border: "1px solid rgba(255,255,255,0.07)", textAlign: "center" }}>
